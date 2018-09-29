@@ -1,0 +1,99 @@
+<script src="js/productos.js"></script>
+
+<div class="row light-blue white-text" id="module-title">
+  <div class="col s12 center-align">
+    <h5>Administrar productos</h5>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12 right-align">
+    <a id="nuevo-producto" class="circle-btn waves-effect waves-light btn-small light-blue white-text" onclick="$('#module-form').show();$(this).hide();$('input').val('');$('#enviardata').show();$('#editardata').hide()"><i class="material-icons left">add_circle_outline</i>Agregar producto</a>
+  </div>
+</div>
+
+<div class="row z-depth-2" id="module-form">
+  <div class="col s12">
+    <!--Formulario-->
+    <div class="row">
+      <div class="input-field col m6 s12">
+        <select id="familia">
+        </select>
+        <label for="familia">Familia</label>
+      </div>
+      <div class="input-field col m6 s12">
+        <select id="modelo">
+        </select>
+        <label for="modelo">Modelo</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col m6 s12">
+        <select id="linea">
+        </select>
+        <label for="linea">Linea</label>
+      </div>
+      <div class="input-field col m6 s12">
+        <select id="tela">
+        </select>
+        <label for="tela">Tela</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col m6 s12">
+        <select id="color">
+        </select>
+        <label for="color">Color</label>
+      </div>
+      <div class="input-field col m6 s12">
+        <select id="talla">
+        </select>
+        <label for="talla">Talla</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="codigo" type="text" class="validate">
+        <label for="codigo">Código del producto</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col m6 s12">
+        <input id="docena" type="text" class="validate">
+        <label for="docena">Precio por docena</label>
+      </div>
+      <div class="input-field col m6 s12">
+        <input id="media" type="text" class="validate">
+        <label for="media">Precio por media docena</label>
+      </div>
+    </div>
+    <div class="row right-align">
+      <div class="col s12"> 
+        <div class="col s10">
+          <a href="#!" class="cancel-btn" onclick="$('#module-form').hide();$('#nuevo-producto').show();">Cancelar</a>
+        </div>
+        <div class="col s2">
+          <button id="enviardata" class="btn waves-effect waves-light light-blue white-text" type="submit" name="action" onclick="enviarDatosProducto()">Guardar</button>
+          <button id="editardata" class="btn waves-effect waves-light light-blue white-text" type="submit" name="action" onclick="editarDatosProducto()">Editar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="overflow-x:auto;">
+  <div class="col s12">
+   <!-- //Tabla con los condominios-->
+    <table class="striped">
+      <thead>
+        <th>Código</th>
+        <th>Docena</th>
+        <th>1/2 docena</th>
+        <th></th>
+        <th></th>
+      </thead>
+      <tbody id="productos-rows">
+      </tbody>
+    </table>
+  </div>
+</div>

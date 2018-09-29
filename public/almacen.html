@@ -1,0 +1,46 @@
+<script src="js/almacen.js"></script>
+
+<div class="row blue white-text" id="module-title">
+  <div class="col s12 center-align">
+    <h5>Administrar almacenes</h5>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12">
+    <a href="#!" onclick="$( '#work-place' ).load( 'almacen.html' );" id="goback"><i class="medium material-icons">chevron_left</i></a>
+    <select id="almacenes-select" onchange="leerDatosAlmacen($(this).val())">
+    </select>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12">
+    <h5 id="nombre_almacen" style="margin-top: -10px;" class="light-blue-text"></h5>
+    <p id="direccion_almacen" style="margin-top: -10px;"></p>
+  </div>
+</div>
+
+<div class="row" style="overflow-x:auto;">
+  <div class="col s12">
+   <!-- //Tabla con los condominios-->
+    <table class="striped" id="stock-table">
+      <thead>
+        <th>Código</th>
+        <th>Stock</th>
+      </thead>
+      <tbody id="stock-rows">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large light-blue">
+    <i class="large material-icons">mode_edit</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating yellow darken-1 tooltipped" data-tooltip="Registrar salida" data-position="left" onclick="$( '#work-place' ).load( 'salidas.html' );"><i class="material-icons">vertical_align_bottom</i></a></li>
+    <li><a class="btn-floating green tooltipped" data-tooltip="Registrar entrada" data-position="left" onclick="$( '#work-place' ).load( 'entradas.html' );"><i class="material-icons">control_point</i></a></li>
+  </ul>
+</div>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>A&A | Login</title>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <!-- Compiled and minified CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      <link rel="stylesheet" href="css/style.css">
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link rel="shortcut icon" type="image/png" href="images/logo.png"/>
+      <link href="../favicon.png" rel="apple-touch-icon" />
+      <link href="../favicon.png" rel="apple-touch-icon" sizes="152x152" />
+      <link href="../favicon.png" rel="apple-touch-icon" sizes="167x167" />
+      <link href="../favicon.png" rel="apple-touch-icon" sizes="180x180" />
+      <link href="../favicon.png" rel="icon" sizes="192x192" />
+      <link href="../favicon.png" rel="icon" sizes="128x128" />
+      
+      <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase-database.js"></script>
+      <script src="js/firebase.js"></script>
+      <script src="js/login.js"></script>
+    </head>
+<body>  
+      
+      <div class="container">
+        
+        <div class="row z-depth-1" id="form">
+          <div class="col s12" id="login-form">
+            <div class="row">
+              <div class="col s12">
+                <img src="images/logo.png" alt="A&A logo" id="login-logo">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                <p id="login-text">Acceso</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                <p id="login-slogan">Accede con tu cuenta de usuario</p>
+              </div>
+            </div>
+            <!--Formulario-->
+            <div class="row" id="form-inputs">
+              <div class="input-field col s12">
+                <input placeholder="Escribir correo" id="email" type="text" class="validate">
+                <label for="email">Correo</label>
+              </div>
+              <div class="input-field col s12">
+                <input placeholder="Password" id="pass" type="password" class="validate">
+                <label for="pass">Password</label>
+              </div>
+            </div>
+            <div class="row right-align">
+              <div class="col s12"> 
+                <button id="login-btn" class="btn waves-effect waves-light light-blue white-text" type="submit" name="action" onclick="login()">Entrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      
+    </body>
+  </html>

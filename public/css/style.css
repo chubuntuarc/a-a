@@ -1,0 +1,89 @@
+*{
+  font-family: 'Ubuntu', sans-serif;
+}
+
+body{
+  background-color: #FAFAFA;
+}
+
+header, main, footer {
+  padding-left: 240px;
+}
+
+@media only screen and (max-width : 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+}
+
+.message{
+    position: fixed;
+    bottom: -15px;
+    width: 100%;
+    z-index: 1000;
+    color: #FFF;
+    background-color: #64b5f6;
+    padding-left:10px;
+}
+
+.background{
+  background-color: #2D323F;
+}
+
+.cancel-btn{
+  color: rgba(0,0,0,0.54);
+}
+
+.circle-btn{
+  border-radius: 10px;
+}
+
+#form{
+  margin-top: 20%;
+  width: 60%;
+  background-color: #FFFFFF;
+}
+
+#form-inputs{
+  margin-top: -20px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+#login-btn{
+  margin-right: 25px;
+}
+
+#login-form{
+}
+
+#login-logo{
+  height:60px;
+  margin-top: 30px;
+  margin-left: 15px;
+}
+
+#login-text{
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: -20px;
+  margin-left: 15px;
+}
+
+#login-slogan{
+  margin-top: -44px;
+  margin-left: 15px;
+  font-size: 11px;
+}
+
+#module-form{
+  background-color: #FFF;
+  border-radius: 6px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+#module-title h5{
+  font-size: 16px;
+}
+

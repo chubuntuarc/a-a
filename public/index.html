@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>A&A</title>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <!-- Compiled and minified CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      <link rel="stylesheet" href="css/style.css">
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link rel="shortcut icon" type="image/png" href="images/logo.png"/>
+      <link href="../favicon.png" rel="apple-touch-icon" />
+      <link href="../favicon.png" rel="apple-touch-icon" sizes="152x152" />
+      <link href="../favicon.png" rel="apple-touch-icon" sizes="167x167" />
+      <link href="../favicon.png" rel="apple-touch-icon" sizes="180x180" />
+      <link href="../favicon.png" rel="icon" sizes="192x192" />
+      <link href="../favicon.png" rel="icon" sizes="128x128" />
+      
+      <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase-database.js"></script>
+      <script src="js/firebase.js"></script>
+      <script src="js/checklogin.js"></script>
+      
+      <p class="message"> </p> 
+      
+    </head>
+
+    <body>
+            
+      <!--Sidenav-->
+      <ul id="slide-out" class="sidenav sidenav-fixed blue-grey darken-4 z-depth-1" style="width: 240px;">
+        <li><div class="user-view">
+          <div class="background"></div>
+          <!--<a href="#user"><img class="circle center-align" src="images/logo.png"></a>
+          <a href="#name"><span class="white-text name">John Doe</span></a>
+          <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>-->
+        </div></li>
+        <li><a href="#!" class="grey-text text-lighten-2" onclick="$( '#work-place' ).load( 'pos.html' );"><i class="material-icons grey-text text-lighten-2">apps</i>Punto de venta</a></li>
+        <li><a href="#!" class="grey-text text-lighten-2" onclick="$( '#work-place' ).load( 'cotizaciones.html' );"><i class="material-icons grey-text text-lighten-2">attach_money</i>Cotizaciones</a></li>
+        <li><a href="#!" class="grey-text text-lighten-2" onclick="$( '#work-place' ).load( 'almacen.html' );"><i class="material-icons grey-text text-lighten-2">content_paste</i>Almacén</a></li>
+        <li><a href="#!" class="grey-text text-lighten-2" onclick="$( '#work-place' ).load( 'settings.html' );"><i class="material-icons grey-text text-lighten-2">settings</i>Ajustes</a></li>
+        <li><div class="divider"></div></li>
+        <li><a href="#!" class="grey-text text-lighten-2" onclick="salir()"><i class="material-icons grey-text text-lighten-2">chevron_left</i>Salir</a></li>
+        <li><a class="subheader grey-text text-lighten-2" style="font-size:12px;">© 2018, Derechos Reservados.</a></li>
+      </ul>
+      
+      <main>
+        <!--Menu movil-->
+        <a href="#" data-target="slide-out" class="sidenav-trigger hide-on-large-only" style="position: absolute;color: #FFF;top: 10px;margin-left: 10px;"><i class="material-icons">menu</i></a>
+      <input type="hidden" id="id_almacen">
+      <input type="hidden" id="userid">
+      <!--Work container-->
+      <div id="work-place">
+          
+      </div>
+      </main>
+      
+      
+
+      <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.message').sidenav();
+        $('.sidenav').sidenav();
+      }) 
+    </script>
+    </body>
+  </html>
