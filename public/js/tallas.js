@@ -47,7 +47,8 @@ function leerDatosTalla(){
           nuevaFila+='<tr>'
           nuevaFila+='<td>'+datos[key].nombre+'</td>'
           nuevaFila+='<td><a href="#!" onclick="editarTalla(\''+key+'\');"><i class="material-icons">edit</i></a></td>'
-          nuevaFila+='<td><a href="#!" onclick="borrarTalla(\''+key+'\');"><i class="material-icons">delete</i></a></td>'
+          //nuevaFila+='<td><a href="#!" onclick="borrarTalla(\''+key+'\');"><i class="material-icons">delete</i></a></td>'
+          nuevaFila+='<td class="hide-on-small-only"><a class="red-text text-lighten-3" href="#!" onclick="borrarTalla(\''+key+'\');"><i class="tiny material-icons">clear</i></a></td>'
           nuevaFila+='</tr>'
     }
     $("#tallas-rows").append(nuevaFila)
