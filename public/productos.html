@@ -7,9 +7,18 @@
 </div>
 
 <div class="row">
-  <div class="col s12 right-align">
+  <div class="col s2 left-align">
+    <a href="#!" onclick="$( '#work-place' ).load( 'settings.html' );" id="goback"><i class="medium material-icons">chevron_left</i></a>
+  </div>
+  <div class="col s10 right-align">
+    
     <a id="nuevo-producto" class="circle-btn waves-effect waves-light btn-small light-blue white-text" onclick="$('#module-form').show();$(this).hide();$('input').val('');$('#enviardata').show();$('#editardata').hide()"><i class="material-icons left">add_circle_outline</i>Agregar producto</a>
   </div>
+</div>
+
+<div id="barcode-template">
+  <svg id="barcode"></svg>
+  <!--<p id="barcode-producto" style="margin-left: 18%;margin-top: -10px;"></p>-->
 </div>
 
 <div class="row z-depth-2" id="module-form">
@@ -84,13 +93,14 @@
 <div class="row" style="overflow-x:auto;">
   <div class="col s12">
    <!-- //Tabla con los condominios-->
-    <table class="striped">
+    <table id="tabla-productos" class="striped display highlight" cellspacing="0" width="100%">
       <thead>
         <th>Código</th>
         <th>Docena</th>
         <th>1/2 docena</th>
         <th></th>
-        <th></th>
+        <th class="hide-on-small-only"></th>
+        <th class="hide-on-small-only"></th>
       </thead>
       <tbody id="productos-rows">
       </tbody>

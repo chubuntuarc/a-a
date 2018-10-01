@@ -51,10 +51,12 @@ function leerDatosAlmacen(){
           nuevaFila+='<tr>'
           nuevaFila+='<td>'+datos[key].nombre+'</td>'
           nuevaFila+='<td><a href="#!" onclick="editarAlmacen(\''+key+'\');"><i class="material-icons">edit</i></a></td>'
-          nuevaFila+='<td><a href="#!" onclick="borrarAlmacen(\''+key+'\');"><i class="material-icons">delete</i></a></td>'
+          //nuevaFila+='<td><a href="#!" onclick="borrarAlmacen(\''+key+'\');"><i class="material-icons">delete</i></a></td>'
+          nuevaFila+='<td class="hide-on-small-only"><a class="red-text text-lighten-3" href="#!" onclick="borrarAlmacen(\''+key+'\');"><i class="tiny material-icons">clear</i></a></td>'
           nuevaFila+='</tr>'
     }
     $("#almacenes-rows").append(nuevaFila)
+    datatable()
   })
 }
 
@@ -82,4 +84,38 @@ function editarAlmacen(key){
   $('#enviardata').hide()
   $('#editardata').show()
   M.updateTextFields();
+}
+
+function datatable(){
+  $('table').DataTable({
+    retrieve: true,
+    paging: false,
+      "language": {
+                    "sProcessing":     "Procesando...",
+                    "sLengthMenu":     "Mostrar _MENU_ registros",
+                    "sZeroRecords":    "No se encontraron resultados",
+                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix":    "",
+                    "sSearch":         "Buscar:",
+                    "sUrl":            "",
+                    "sInfoThousands":  ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst":    "Primero",
+                        "sLast":     "Último",
+                        "sNext":     "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+    });
+  $("select").val('10');
+  //$('select').addClass("browser-default");
+  $('select').formSelect()
 }

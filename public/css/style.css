@@ -16,6 +16,19 @@ header, main, footer {
   }
 }
 
+#barcode-template{
+  position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100%;
+    background-color: #FFF;
+    height: 100%;
+}
+
+#barcode{
+  margin-top: 25%;
+}
 .message{
     position: fixed;
     bottom: -15px;
