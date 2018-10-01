@@ -40,7 +40,7 @@ setInterval(function() {
   }, 5000)
   
   function datatable(){
-  $('table').DataTable({
+  $('.table').DataTable({
     retrieve: true,
       "language": {
                     "sProcessing":     "Procesando...",

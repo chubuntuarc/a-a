@@ -67,13 +67,14 @@ function leerEntradas(){
     for(var key in datos){
       if(almacen == datos[key].almacen){
         nuevaFila += '<tr>'
+        nuevaFila += '<td>'+datos[key].fecha+'</td>'
         nuevaFila += '<td>'+datos[key].tipo+'</td>'
         nuevaFila += '<td>'+datos[key].comentarios+'</td>'
-        nuevaFila += '<td>'+datos[key].fecha+'</td>'
         nuevaFila += '</tr>'
       }
     }
     $("#entradas-rows").append(nuevaFila)
+    datatable()
   })
 }
 
@@ -96,35 +97,21 @@ function registrarEntrada(){
      const key = snap.key 
       var almacen = $('#id_almacen').val()
       var codigos = $(".codigos")
-      var codigos2 = $(".codigos").val()
       var cantidades = $(".cantidades")
-      //var docenas = $(".docenas");
-      //var medias = $(".medias");
-      for(var i = 0; i < codigos2.length; i++){
-        //Codigo de producto
+      entradas_productos = firebase.database().ref().child('entradas').child(key).child('productos')
+      for(var i = 0; i < codigos.length; i++){
         var codigo = $(codigos[i]).val()
         var cantidad = $(cantidades[i]).val()
-        
-        entradas_productos = firebase.database().ref().child('entradas').child(key).child('productos')
+        console.log(codigo + ' : ' + cantidad);
         entradas_productos.push({ [codigo] : cantidad })
         
         update_stock = firebase.database().ref().child('stock').child(almacen)
         update_stock.once('value',function(snap){
-          if(!snap.val() || snap.val() === null){
-             console.log('No hay datos')
-             stocker = firebase.database().ref().child('stock')
-            var almacen = $('#id_almacen').val()
-             stocker.update({
-               [almacen] : {
-                 0 : 0
-               }
-             })
-           }else{
-             var datos = snap.val()
-             var cantidad_inicial = datos[codigo]
-             var nueva_cantidad = parseInt(cantidad) + parseInt(cantidad_inicial)
-             update_stock.update({ [codigo] : nueva_cantidad })
-           }
+           var datos = snap.val()
+          var cantidad_inicial = datos[codigo]
+          console.log(cantidad_inicial)
+          var nueva_cantidad = parseInt(cantidad_inicial) + parseInt(cantidad)
+          update_stock.update({ [codigo] : nueva_cantidad })
         })
       }
   })  
