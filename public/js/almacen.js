@@ -93,6 +93,7 @@ function leerDatosAlmacen(key){
         $('#'+key).text(datos[key].codigo)
     }
     })
+    datatable()
     $('#stock-table').show()
   })
 }
