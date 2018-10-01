@@ -1,6 +1,8 @@
 <script src="js/checklogin.js"></script>
 <script src="js/entradas.js"></script>
 
+<div class="loader-back"></div>
+
 <div class="row blue white-text" id="module-title">
   <div class="col s12 center-align">
     <h5>Administrar entradas</h5>
@@ -18,6 +20,7 @@
 </div>
 
 <div class="row z-depth-2" id="module-form">
+  <input type="hidden" id="key_stock" />
   <div class="col s12">
        <div class='row'>
           <div class="input-field col s12">
@@ -64,7 +67,7 @@
               <a href="#!" class="cancel-btn" onclick="$('#module-form').hide();$('#nueva-entrada').show();" style="margin-right: -35px;">Cancelar</a>
             </div>
              <div class="col s2 right-align">
-              <button id="enviardata" class="btn waves-effect waves-light light-blue white-text" type="submit" name="action" onclick="registrarEntrada()">Registrar</button>
+              <button id="enviardata" class="btn waves-effect waves-light light-blue white-text" type="submit" name="action" onclick="stopDefAction(event);">Registrar</button>
             </div>
           </div>
       </div>

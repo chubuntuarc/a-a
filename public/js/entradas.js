@@ -6,9 +6,9 @@ $(document).ready(function(){
   datosAlmacen()
   listadoProductos()
   leerEntradas()
-  $('select').formSelect()
   M.updateTextFields()
   $('#module-form').hide()
+  $('.loader-back').hide()
 })
 
 function inicializar(){
@@ -78,6 +78,20 @@ function leerEntradas(){
   })
 }
 
+function stopDefAction(evt) {
+  $('.loader-back').show()
+  evt.preventDefault()
+  var codigos = $('.codigos option:selected')
+  var cantidades = $('.cantidades')
+  setTimeout(function() { registrarEntrada(); }, 2000)
+  setTimeout(function() { 
+    productosEntrada(codigos,cantidades); 
+  }, 5000)
+  setTimeout(function() {  
+    registrarStock(codigos,cantidades);
+  }, 7000)
+}
+
 function registrarEntrada(){
   entradas = firebase.database().ref().child('entradas')
   var tipo = $('#tipo').val()
@@ -95,28 +109,40 @@ function registrarEntrada(){
     productos : {}
   }).then((snap) => {
      const key = snap.key 
-      var almacen = $('#id_almacen').val()
-      var codigos = $(".codigos")
-      var cantidades = $(".cantidades")
-      entradas_productos = firebase.database().ref().child('entradas').child(key).child('productos')
-      for(var i = 0; i < codigos.length; i++){
+     $('#key_stock').val(key)
+  })  
+  
+}
+
+function productosEntrada(codigos,cantidades){
+  var key =  $('#key_stock').val()
+  entradas_productos = firebase.database().ref().child('entradas').child(key).child('productos')
+  for(var i = 0; i < codigos.length; i++){
+    
+    var codigo = $(codigos[i]).val()
+    var cantidad = $(cantidades[i]).val()
+    entradas_productos.push({ [codigo] : cantidad })
+  }
+  
+}
+
+function registrarStock(codigos,cantidades){
+  var almacen = $('#id_almacen').val()
+  for(var i = 0; i < codigos.length; i++){
         var codigo = $(codigos[i]).val()
         var cantidad = $(cantidades[i]).val()
-        console.log(codigo + ' : ' + cantidad);
-        entradas_productos.push({ [codigo] : cantidad })
         
         update_stock = firebase.database().ref().child('stock').child(almacen)
         update_stock.once('value',function(snap){
            var datos = snap.val()
-          var cantidad_inicial = datos[codigo]
-          console.log(cantidad_inicial)
+          if(cantidad_inicial === null || cantidad_inicial === '' || datos === null || datos === ''){var cantidad_inicial = 0}else{var cantidad_inicial = datos[codigo]}
           var nueva_cantidad = parseInt(cantidad_inicial) + parseInt(cantidad)
           update_stock.update({ [codigo] : nueva_cantidad })
         })
       }
-  })  
+  $('.loader-back').hide()
   $('#module-form').hide()
   $('#nueva-entrada').show()
   M.toast({html: 'Guardado!', classes: 'rounded'});
-  leerEntradas()
+  //leerEntradas()
 }
