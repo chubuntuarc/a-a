@@ -6,9 +6,9 @@ $(document).ready(function(){
   datosAlmacen()
   listadoProductos()
   leerEntradas()
-  $('select').formSelect()
   M.updateTextFields()
   $('#module-form').hide()
+  $('.loader-back').hide()
 })
 
 function inicializar(){
@@ -74,7 +74,22 @@ function leerEntradas(){
       }
     }
     $("#salidas-rows").append(nuevaFila)
+    datatable()
   })
+}
+
+function stopDefAction(evt) {
+  $('.loader-back').show()
+  evt.preventDefault()
+  var codigos = $('.codigos option:selected')
+  var cantidades = $('.cantidades')
+  setTimeout(function() { registrarSalida(); }, 2000)
+  setTimeout(function() { 
+    productosSalida(codigos,cantidades); 
+  }, 5000)
+  setTimeout(function() {  
+    registrarStock(codigos,cantidades);
+  }, 7000)
 }
 
 function registrarSalida(){
@@ -94,31 +109,39 @@ function registrarSalida(){
     productos : {}
   }).then((snap) => {
      const key = snap.key 
-      var almacen = $('#id_almacen').val()
-      var codigos = $(".codigos")
-      var codigos2 = $(".codigos").val()
-      var cantidades = $(".cantidades")
-      //var docenas = $(".docenas");
-      //var medias = $(".medias");
-      for(var i = 0; i < codigos2.length; i++){
-        //Codigo de producto
+     $('#key_stock').val(key)
+  })  
+}
+
+function productosSalida(codigos,cantidades){
+  var key =  $('#key_stock').val()
+  salidas_productos = firebase.database().ref().child('salidas').child(key).child('productos')
+  for(var i = 0; i < codigos.length; i++){
+    
+    var codigo = $(codigos[i]).val()
+    var cantidad = $(cantidades[i]).val()
+    salidas_productos.push({ [codigo] : cantidad })
+  }
+  
+}
+
+function registrarStock(codigos,cantidades){
+  var almacen = $('#id_almacen').val()
+  for(var i = 0; i < codigos.length; i++){
         var codigo = $(codigos[i]).val()
         var cantidad = $(cantidades[i]).val()
-        
-        salidas_productos = firebase.database().ref().child('salidas').child(key).child('productos')
-        salidas_productos.push({ [codigo] : cantidad })
         
         update_stock = firebase.database().ref().child('stock').child(almacen)
         update_stock.once('value',function(snap){
            var datos = snap.val()
-          var cantidad_inicial = datos[codigo]
+          if(cantidad_inicial === null || cantidad_inicial === '' || datos === null || datos === ''){var cantidad_inicial = 0}else{var cantidad_inicial = datos[codigo]}
           var nueva_cantidad = parseInt(cantidad_inicial) - parseInt(cantidad)
           update_stock.update({ [codigo] : nueva_cantidad })
         })
       }
-  })  
+  $('.loader-back').hide()
   $('#module-form').hide()
-  $('#nueva-salida').show()
+  $('#nueva-entrada').show()
   M.toast({html: 'Guardado!', classes: 'rounded'});
-  leerEntradas()
+  //leerEntradas()
 }
