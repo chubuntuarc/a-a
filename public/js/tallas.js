@@ -42,14 +42,16 @@ function leerDatosTalla(){
   tallas.on('value',function(snap){
     $("#tallas-rows > tr").remove()
     var datos = snap.val()
+    var nuevaFila
     for(var key in datos){
-      var nuevaFila='<tr>'
+          nuevaFila+='<tr>'
           nuevaFila+='<td>'+datos[key].nombre+'</td>'
           nuevaFila+='<td><a href="#!" onclick="editarTalla(\''+key+'\');"><i class="material-icons">edit</i></a></td>'
           nuevaFila+='<td><a href="#!" onclick="borrarTalla(\''+key+'\');"><i class="material-icons">delete</i></a></td>'
           nuevaFila+='</tr>'
-          $("#tallas-rows").append(nuevaFila)
     }
+    $("#tallas-rows").append(nuevaFila)
+    datatable()
   })
 }
 
