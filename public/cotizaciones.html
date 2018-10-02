@@ -1,0 +1,35 @@
+<script src="js/cotizaciones.js"></script>
+
+<div class="row light-blue white-text" id="module-title">
+  <div class="col s12 center-align">
+    <h5>Administrar cotizaciones</h5>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12 right-align">
+    <a id="nueva-cotizacion" class="circle-btn waves-effect waves-light btn-small light-blue white-text" onclick="$( '#work-place' ).load( 'pos.html' );"><i class="material-icons left">add_circle_outline</i>Nueva cotización</a>
+  </div>
+</div>
+
+<div class="row" style="overflow-x:auto;">
+  <div class="col s12">
+   <!-- //Tabla con los condominios-->
+    <table class="table striped display highlight" cellspacing="0" width="100%">
+      <thead>
+        <th>Nota</th>
+        <th>Tienda</th>
+        <th>Vendedor</th>
+        <th>Última edición</th>
+        <th>Fecha de venta</th>
+        <th>Subtotal</th>
+        <th>IVA</th>
+        <th>Total</th>
+        <th></th>
+        <th></th>
+      </thead>
+      <tbody id="cotizaciones-rows">
+      </tbody>
+    </table>
+  </div>
+</div>
