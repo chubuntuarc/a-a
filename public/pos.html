@@ -1,0 +1,69 @@
+<script src="js/pos.js"></script>
+
+<div class="row blue white-text" id="module-title">
+  <div class="col s12 center-align">
+    <h5>Punto de venta</h5>
+  </div>
+</div>
+
+<div class="loader-back"></div>
+
+<div class="row">
+    <div class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">search</i>
+          <input type="text" id="autocomplete-input" class="autocomplete">
+          <label for="autocomplete-input">Buscar producto</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<div class="row">
+  <div class="col s12">
+    <div class="card" style="border-radius:6px;margin-top:-35px;">
+      <table>
+        <thead>
+            <th>Código o Clave</th>
+            <th>Familia</th>
+            <th>Linea</th>
+            <th>Tela</th>
+            <th>Modelo</th>
+            <th>Talla</th>
+            <th>Color</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Descuento</th>
+            <th></th>
+            <th></th>
+          </thead>
+          <tbody id="productos-rows">
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>  
+
+<div class="row" style="position: fixed;bottom: 0;">
+  <div class="col s12 left-align">
+    <p>Subtotal <span style="font-weight: bold;">$100.00</span></p>
+    <p style="margin-top: -15px;">IVA <span style="font-weight: bold;">$16.00</span></p>
+    <p style="margin-bottom: -10px;margin-top: -15px;">Total <span class="light-blue-text" style="font-weight: bold;font-size: 28px;">$116.00</span></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12">
+    <div class="click-to-toggle fixed-action-btn">
+      <a class="btn-floating btn-large blue">
+        <i class="large material-icons">menu</i>
+      </a>
+      <ul>
+        <li><a class="btn-floating yellow darken-1 tooltipped" data-position="top" data-tooltip="Imprimir"><i class="material-icons">local_printshop</i></a></li>
+        <li><a class="btn-floating blue tooltipped" data-position="top" data-tooltip="Guardar cotización"><i class="material-icons">assignment_turned_in</i></a></li>
+        <li><a class="btn-floating green tooltipped" data-position="top" data-tooltip="Registrar venta"><i class="material-icons">attach_money</i></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
