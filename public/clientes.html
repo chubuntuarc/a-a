@@ -1,0 +1,66 @@
+<script src="js/clientes.js"></script>
+
+<div class="row light-blue white-text" id="module-title">
+  <div class="col s12 center-align">
+    <h5>Administrar clientes</h5>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s2 left-align">
+    <a href="#!" onclick="$( '#work-place' ).load( 'settings.html' );" id="goback"><i class="medium material-icons">chevron_left</i></a>
+  </div>
+  <div class="col s10 right-align">
+    <a id="nuevo-cliente" class="circle-btn waves-effect waves-light btn-small light-blue white-text" onclick="$('#module-form').show();$(this).hide();$('input').val('');$('#enviardata').show();$('#editardata').hide()"><i class="material-icons left">add_circle_outline</i>Agregar cliente</a>
+  </div>
+</div>
+
+<div class="row z-depth-2" id="module-form">
+  <div class="col s12">
+    <!--Formulario-->
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="nombre" type="text" class="validate">
+        <label for="nombre">Nombre del cliente</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="correo" type="text" class="validate">
+        <label for="correo">Correo de contacto</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="telefono" type="text" class="validate">
+        <label for="telefono">Teléfono de contacto</label>
+      </div>
+    </div>
+    <div class="row right-align">
+      <div class="col s12"> 
+        <div class="col s10">
+          <a href="#!" class="cancel-btn" onclick="$('#module-form').hide();$('#nuevo-cliente').show();">Cancelar</a>
+        </div>
+        <div class="col s2">
+          <button id="enviardata" class="btn waves-effect waves-light light-blue white-text" type="submit" name="action" onclick="enviarDatosCliente()">Guardar</button>
+          <button id="editardata" class="btn waves-effect waves-light light-blue white-text" type="submit" name="action" onclick="editarDatosCliente()">Editar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="overflow-x:auto;">
+  <div class="col s12">
+   <!-- //Tabla con los condominios-->
+    <table class="table striped display highlight" cellspacing="0" width="100%">
+      <thead>
+        <th>Nombre</th>
+        <th></th>
+        <th></th>
+      </thead>
+      <tbody id="clientes-rows">
+      </tbody>
+    </table>
+  </div>
+</div>
