@@ -71,7 +71,7 @@ function cargarDatosProducto(){
         nuevaFila+='<input type="hidden" id="media'+snap.key+'" value="'+datos.media+'"/>'
         nuevaFila+='<input type="hidden"id="docena'+snap.key+'" value="'+datos.docena+'"/>'
         nuevaFila+='<td><input type="text" onkeyup="validarCampo($(this).val(),\''+snap.key+'\');" value="12"/></td>'
-        nuevaFila+='<td><input type="text" value="0"/></td>'
+        //nuevaFila+='<td><input type="text" value="0"/></td>'
       nuevaFila+='<td class="blue-text" style="font-size: 16px;font-weight: bold;">$<span id="sub_'+snap.key+'" class="sub_productos">'+number_format(datos.docena,2)+'</span></td>'
         nuevaFila+='</tr>'
     $("#productos-rows").append(nuevaFila)
@@ -91,10 +91,8 @@ function validarCampo(cantidad, producto){
   var media = $('#media'+producto).val()
   var docena = $('#docena'+producto).val()
    if(cantidad <= 6){
-     //console.log(media)
      $('#precio'+producto).text(media)
    }else{
-     //console.log(docena)
      $('#precio'+producto).text(docena)
    }
 }

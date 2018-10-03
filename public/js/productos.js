@@ -91,7 +91,7 @@ function leerDatosProducto(){
           nuevaFila+='<td>$'+datos[key].media+'</td>'
           nuevaFila+='<td><a href="#!" onclick="editarProducto(\''+key+'\');"><i class="material-icons">edit</i></a></td>'
           nuevaFila+='<td class="hide-on-small-only"><a class="red-text text-lighten-3" href="#!" onclick="borrarProducto(\''+key+'\');"><i class="tiny material-icons">clear</i></a></td>'
-          nuevaFila+='<td class="hide-on-small-only"><a href="#!" onclick="barcode(\''+key+'\',\''+datos[key].codigo+'\');"><i class="material-icons">confirmation_number</i></a></td>'
+          nuevaFila+='<td class="hide-on-small-only"><a href="#!" onclick="barcode(\''+datos[key].codigo+'\',\''+datos[key].codigo+'\');"><i class="material-icons">confirmation_number</i></a></td>'
           nuevaFila+='</tr>'
     }
     $("#productos-rows").append(nuevaFila)
