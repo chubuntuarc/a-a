@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  if($('#id_cotizacion').val() === 0){
+  if($('#id_cotizacion').val() === 0 || $('#id_cotizacion').val() === '' || $('#id_cotizacion').val() === '0'){
     $('#createC').hide()
   }else{
     $('#updateC').hide()
@@ -34,6 +34,7 @@ function inicializar(){
 
 //Cargar datos de la cotizacion
 function cargarCotizacion(key){ 
+  $('#id_cotizacion').val(key)
   cotizaciones = firebase.database().ref().child('cotizaciones').child(key)
   productos_cotizaciones = firebase.database().ref().child('cotizaciones').child(key).child('productos')
   cotizaciones.once('value',function(snap){
