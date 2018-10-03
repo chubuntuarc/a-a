@@ -5,16 +5,19 @@ $(document).ready(function(){
       direction: 'left'
     })
     $('.tooltipped').tooltip()
-    $('#autocomplete-input').focus()
+    $('#buscar-productos').focus()
     inicializar()
     listaBusqueda()
+    listaClientes()
     $(".switch").find("input[type=checkbox]").on("change",function() {
         calcularsubtotal()
     })
 })
 
 function inicializar(){
+  clientes = firebase.database().ref().child('clientes')
   productos = firebase.database().ref().child('productos')
+  cotizaciones = firebase.database().ref().child('cotizaciones')
   familias = firebase.database().ref().child('familias')
   lineas = firebase.database().ref().child('lineas')
   telas = firebase.database().ref().child('telas')
@@ -34,7 +37,7 @@ function listaBusqueda(){
     $.each(data, function(index, value) {
       myConvertedData[value] = null;
     })
-    $('input.autocomplete').autocomplete({
+    $('#buscar-productos').autocomplete({
         data: myConvertedData,
       limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
       onAutocomplete: function(val) {
@@ -42,6 +45,32 @@ function listaBusqueda(){
           if(value == val){
             $('#id_producto').val(index)
             cargarDatosProducto()
+          }
+        })
+      }
+      })
+    $('.loader-back').hide()
+  })
+}
+
+function listaClientes(){
+  clientes.on('value',function(snap){
+    var datos = snap.val()
+    var data = {}
+    var myConvertedData = {}
+    for(var key in datos){
+      data[key] = datos[key].nombre
+    }
+    $.each(data, function(index, value) {
+      myConvertedData[value] = null;
+    })
+    $('#buscar-clientes').autocomplete({
+        data: myConvertedData,
+        limit: 20,
+        onAutocomplete: function(val) {
+        $.each(data, function(index, value) {
+          if(value == val){
+            $('#id_cliente').val(index)
           }
         })
       }
@@ -61,6 +90,7 @@ function cargarDatosProducto(){
         nuevaFila+='<tr>'
         nuevaFila+='<td><a class="red-text text-lighten-3" href="#!" onclick="borrarProducto(\''+snap.key+'\');"><i class="tiny material-icons">clear</i></a></td>'
         nuevaFila+='<td><b class="blue-text">'+datos.codigo+'</b></td>'
+        nuevaFila+='<input type="hidden" class="codigos" value="'+snap.key+'"/>'
         nuevaFila+='<td class="'+datos.familia+'"></td>'
         nuevaFila+='<td class="'+datos.linea+'"></td>'
         nuevaFila+='<td class="'+datos.tela+'"></td>'
@@ -70,7 +100,7 @@ function cargarDatosProducto(){
         nuevaFila+='<td>$<span id="precio'+snap.key+'">'+number_format(datos.docena,2)+'</span></td>'
         nuevaFila+='<input type="hidden" id="media'+snap.key+'" value="'+datos.media+'"/>'
         nuevaFila+='<input type="hidden"id="docena'+snap.key+'" value="'+datos.docena+'"/>'
-        nuevaFila+='<td><input type="text" onkeyup="validarCampo($(this).val(),\''+snap.key+'\');" value="12"/></td>'
+        nuevaFila+='<td><input class="cantidades" type="text" onkeyup="validarCampo($(this).val(),\''+snap.key+'\');" value="12"/></td>'
         //nuevaFila+='<td><input type="text" value="0"/></td>'
       nuevaFila+='<td class="blue-text" style="font-size: 16px;font-weight: bold;">$<span id="sub'+snap.key+'" class="sub_productos">'+number_format(datos.docena,2)+'</span></td>'
         nuevaFila+='</tr>'
@@ -82,21 +112,67 @@ function cargarDatosProducto(){
     leerTallas()
     leerColores()
     calcularsubtotal()
-    $('#autocomplete-input').val('')
-    $('#autocomplete-input').focus()
+    $('#buscar-productos').val('')
+    $('#buscar-productos').focus()
   })
+}
+
+function guardarCotizacion(){
+  var cliente = $('#id_cliente').val()
+  var d = new Date()
+  var fecha_venta = ''
+  var iva = $('#iva_pos').text()
+  var subtotal = $('#subtotal_pos').text()
+  var total = $('#total_pos').text()
+  var nota = 'Abierta'
+  var tienda = '-LNOAiuxGfG36uSSbjXy'
+  var ultima_edicion = d.toLocaleString('en-GB')
+  var vendedor = '2ZV3kHGfjjOfdbvemtp4EwnikOn1'
+  cotizaciones.push({
+    cliente: cliente,
+    fecha_venta : fecha_venta,
+    iva : iva,
+    subtotal : subtotal,
+    total : total,
+    nota : nota,
+    tienda : tienda,
+    ultima_edicion : ultima_edicion,
+    vendedor : vendedor,
+    productos : {}
+  }).then((snap) => {
+     const key = snap.key 
+     $('#key_cotizacion').val(key)
+     productosCotizacion()
+  })    
+  M.toast({html: 'Guardado!', classes: 'rounded'});
+  
+}
+
+function productosCotizacion(){
+  var codigos = $('.codigos')
+  var cantidades = $('.cantidades')
+  console.log('Codigos: '+codigos)
+  console.log('Cantidades: '+cantidades)
+  var key =  $('#key_cotizacion').val()
+  cotizaciones = firebase.database().ref().child('cotizaciones').child(key).child('productos')
+  for(var i = 0; i < codigos.length; i++){
+    var codigo = $(codigos[i]).val()
+    var cantidad = $(cantidades[i]).val()
+    cotizaciones.push({ [codigo] : cantidad })
+  }
+  $( '#work-place' ).load( 'pos.html' );
 }
 
 function validarCampo(cantidad, producto){
   var media = $('#media'+producto).val()
   var docena = $('#docena'+producto).val()
    if(cantidad <= 6){
-     $('#precio'+producto).text(media)
+     $('#precio'+producto).text(number_format(media,2))
      var unidad = parseFloat(media) / 6
      var result = parseFloat(unidad) * cantidad
      $('#sub'+producto).text(number_format(result,2))
    }else{
-     $('#precio'+producto).text(docena)
+     $('#precio'+producto).text(number_format(docena,2))
 
        var unidad = parseFloat(docena) / 12
        var result = parseFloat(unidad) * cantidad
