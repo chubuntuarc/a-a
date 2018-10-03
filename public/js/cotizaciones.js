@@ -32,13 +32,18 @@ function leerCotizaciones(){
           nuevaFila+='<td>$'+number_format(datos[key].subtotal,2)+'</td>'
           nuevaFila+='<td>$'+number_format(datos[key].iva,2)+'</td>'
           nuevaFila+='<td>$'+number_format(datos[key].total,2)+'</td>'
-          nuevaFila+='<td><a href="#!" onclick="editarCotizacion(\''+key+'\');"><i class="material-icons">edit</i></a></td>'
+          nuevaFila+='<td><a href="#!" onclick="cargarCotizacion(\''+key+'\');"><i class="material-icons">edit</i></a></td>'
           nuevaFila+='<td class="hide-on-small-only"><a class="red-text text-lighten-3" href="#!" onclick="borrarCotizacion(\''+key+'\');"><i class="tiny material-icons">clear</i></a></td>'
           nuevaFila+='</tr>'
     }
     $("#cotizaciones-rows").append(nuevaFila)
     datatable()
   })
+}
+
+function cargarCotizacion(key){
+  $("#id_cotizacion").val(key)
+  $( "#work-place" ).load( "pos.html" )
 }
 
 function leerTiendas(){

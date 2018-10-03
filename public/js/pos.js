@@ -1,4 +1,10 @@
 $(document).ready(function(){
+  if($('#id_cotizacion').val() === 0){
+    $('#createC').hide()
+  }else{
+    $('#updateC').hide()
+    cargarCotizacion($('#id_cotizacion').val())
+  }
   $('.loader-back').show()
   var elems = document.querySelectorAll('.fixed-action-btn');
     var instances = M.FloatingActionButton.init(elems, {
@@ -24,6 +30,64 @@ function inicializar(){
   modelos = firebase.database().ref().child('modelos')
   tallas = firebase.database().ref().child('tallas')
   colores = firebase.database().ref().child('colores')
+}
+
+//Cargar datos de la cotizacion
+function cargarCotizacion(key){ 
+  cotizaciones = firebase.database().ref().child('cotizaciones').child(key)
+  productos_cotizaciones = firebase.database().ref().child('cotizaciones').child(key).child('productos')
+  cotizaciones.once('value',function(snap){
+    var datos = snap.val()
+    $('#subtotal_pos').text(datos.subtotal)
+    $('#iva_pos').text(datos.iva)
+    $('#total_pos').text(datos.total)
+    clientes.child(datos.cliente).once('value',function(snap){
+      var datos = snap.val()
+      $('#buscar-clientes').val(datos.nombre)
+    })
+    M.updateTextFields()
+  })
+    productos_cotizaciones.once('value',function(snap){
+      var datos = snap.val()
+      for(var key in datos){
+          producto = productos_cotizaciones.child(key)
+          producto.once('value',function(snap){
+            var data = snap.val()
+            for(var k in data){
+              products = firebase.database().ref().child('productos').child(k)
+              products.once('value',function(snap){
+                var datos = snap.val()
+                var nuevaFila
+                    nuevaFila+='<tr>'
+                    nuevaFila+='<td><a class="red-text text-lighten-3" href="#!" onclick="borrarProducto(\''+snap.key+'\');"><i class="tiny material-icons">clear</i></a></td>'
+                    nuevaFila+='<td><b class="blue-text">'+datos.codigo+'</b></td>'
+                    nuevaFila+='<input type="hidden" class="codigos" value="'+snap.key+'"/>'
+                    nuevaFila+='<td class="'+datos.familia+'"></td>'
+                    nuevaFila+='<td class="'+datos.linea+'"></td>'
+                    nuevaFila+='<td class="'+datos.tela+'"></td>'
+                    nuevaFila+='<td class="'+datos.modelo+'"></td>'
+                    nuevaFila+='<td class="'+datos.talla+'"></td>'
+                    nuevaFila+='<td class="'+datos.color+'"></td>'
+                    nuevaFila+='<td>$<span id="precio'+snap.key+'">'+number_format(datos.docena,2)+'</span></td>'
+                    nuevaFila+='<input type="hidden" id="media'+snap.key+'" value="'+datos.media+'"/>'
+                    nuevaFila+='<input type="hidden"id="docena'+snap.key+'" value="'+datos.docena+'"/>'
+                    nuevaFila+='<td><input class="cantidades" type="text" onkeyup="validarCampo($(this).val(),\''+snap.key+'\');" value="12"/></td>'
+                    //nuevaFila+='<td><input type="text" value="0"/></td>'
+                  nuevaFila+='<td class="blue-text" style="font-size: 16px;font-weight: bold;">$<span id="sub'+snap.key+'" class="sub_productos">'+number_format(datos.docena,2)+'</span></td>'
+                    nuevaFila+='</tr>'
+                $("#productos-rows").append(nuevaFila)
+              })
+            }
+          })
+      }
+    })
+      leerFamilias()
+      leerLineas()
+      leerTelas()
+      leerModelos()
+      leerTallas()
+      leerColores()
+      calcularsubtotal()
 }
 
 function listaBusqueda(){
@@ -144,15 +208,13 @@ function guardarCotizacion(){
      $('#key_cotizacion').val(key)
      productosCotizacion()
   })    
+  $('#id_cotizacion').val(0)
   M.toast({html: 'Guardado!', classes: 'rounded'});
-  
 }
 
 function productosCotizacion(){
   var codigos = $('.codigos')
   var cantidades = $('.cantidades')
-  console.log('Codigos: '+codigos)
-  console.log('Cantidades: '+cantidades)
   var key =  $('#key_cotizacion').val()
   cotizaciones = firebase.database().ref().child('cotizaciones').child(key).child('productos')
   for(var i = 0; i < codigos.length; i++){
