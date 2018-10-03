@@ -1,8 +1,9 @@
 $(document).ready(function(){
+  inicializar()
   if($('#id_cotizacion').val() === 0 || $('#id_cotizacion').val() === '' || $('#id_cotizacion').val() === '0'){
-    $('#createC').hide()
-  }else{
     $('#updateC').hide()
+  }else{
+    $('#createC').hide()
     cargarCotizacion($('#id_cotizacion').val())
   }
   $('.loader-back').show()
@@ -12,13 +13,15 @@ $(document).ready(function(){
     })
     $('.tooltipped').tooltip()
     $('#buscar-productos').focus()
-    inicializar()
+    
     listaBusqueda()
     listaClientes()
     $(".switch").find("input[type=checkbox]").on("change",function() {
         calcularsubtotal()
     })
 })
+
+var elementoEditar
 
 function inicializar(){
   clientes = firebase.database().ref().child('clientes')
@@ -181,6 +184,37 @@ function cargarDatosProducto(){
     $('#buscar-productos').focus()
   })
 }
+  
+//Actualizar cotizaciones
+function actualizarCotizacion(){
+  var k = $('#id_cotizacion').val()
+  var cliente = $('#id_cliente').val()
+  var d = new Date()
+  var fecha_venta = ''
+  var iva = $('#iva_pos').text()
+  var subtotal = $('#subtotal_pos').text()
+  var total = $('#total_pos').text()
+  var nota = 'Abierta'
+  var tienda = '-LNOAiuxGfG36uSSbjXy'
+  var ultima_edicion = d.toLocaleString('en-GB')
+  var vendedor = '2ZV3kHGfjjOfdbvemtp4EwnikOn1'
+  var elementoAEditar = cotizaciones.child(k)
+  elementoAEditar.update({
+      cliente: cliente,
+      fecha_venta : fecha_venta,
+      iva : iva,
+      subtotal : subtotal,
+      total : total,
+      nota : nota,
+      tienda : tienda,
+      ultima_edicion : ultima_edicion,
+      vendedor : vendedor,
+      productos : {}
+    }) 
+  $('#id_cotizacion').val(0)
+  M.toast({html: 'Actualizado!', classes: 'rounded'})
+}
+
 
 function guardarCotizacion(){
   var cliente = $('#id_cliente').val()
