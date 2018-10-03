@@ -12,6 +12,12 @@ $(document).ready(function(){
 
 function inicializar(){
   productos = firebase.database().ref().child('productos')
+  familias = firebase.database().ref().child('familias')
+  lineas = firebase.database().ref().child('lineas')
+  telas = firebase.database().ref().child('telas')
+  modelos = firebase.database().ref().child('modelos')
+  tallas = firebase.database().ref().child('tallas')
+  colores = firebase.database().ref().child('colores')
 }
 
 function listaBusqueda(){
@@ -31,8 +37,8 @@ function listaBusqueda(){
       onAutocomplete: function(val) {
         $.each(data, function(index, value) {
           if(value == val){
-            $('#id_cuenta').val(index)
-            //cargarDatosProducto()
+            $('#id_producto').val(index)
+            cargarDatosProducto()
           }
         })
       }
@@ -43,34 +49,105 @@ function listaBusqueda(){
 
 
 //Cargar movimientos del estado de cuenta actual
-function cargarDatosCuenta(){
-  var cuenta = $('#id_cuenta').val() 
-  estado_cuenta = firebase.database().ref().child('estado_cuenta').child(cuenta)
-  estado_cuenta.once('value',function(snap){
-    $("#cuenta-rows > tr").remove()
+function cargarDatosProducto(){
+  var producto = $('#id_producto').val() 
+  producto = firebase.database().ref().child('productos').child(producto)
+  producto.once('value',function(snap){
     var datos = snap.val()
     var nuevaFila
-    for(var key in datos){
-          nuevaFila+='<tr>'
-          nuevaFila+='<td><a class="red-text text-lighten-3" href="#!" onclick="borrarMovimiento(\''+key+'\');"><i class="tiny material-icons">clear</i></a></td>'
-          nuevaFila+='<td>'+datos[key].fecha+'</td>'
-          nuevaFila+='<td>'+datos[key].fecha_vencimiento+'</td>'
-          nuevaFila+='<td>'+datos[key].tipo+'</td>'
-          nuevaFila+='<td>'+datos[key].concepto+'</td>'
-          nuevaFila+='<td>$'+number_format(datos[key].cargo,2)+'</td>'
-          nuevaFila+='<td>$'+number_format(datos[key].abono,2)+'</td>'
-          if(datos[key].status == 'Adeudo pendiente'){
-           nuevaFila+='<td><a class="red-text text-lighten-3" href="#!" onclick="movimientoEditar(\''+key+'\');">'+datos[key].status+'</a></td>' 
-            nuevaFila+='<td><a class="green-text text-lighten-3" href="#!" onclick="abonarAdeudo(\''+key+'\');"><i class="material-icons">attach_money</i></a></td>'
-          }else{
-           nuevaFila+='<td class="green-text text-lighten-3">'+datos[key].status+'</td>'
-          }
-          nuevaFila+='</tr>'
-    }
-    $("#cuenta-rows").append(nuevaFila)
-    $('.btn-floating').show()
-    $('#tabla-cuenta').show()
-    $('.loader-back').hide()
+        nuevaFila+='<tr>'
+        nuevaFila+='<td><a class="red-text text-lighten-3" href="#!" onclick="borrarProducto(\''+producto+'\');"><i class="tiny material-icons">clear</i></a></td>'
+        nuevaFila+='<td><b class="blue-text">'+datos.codigo+'</b></td>'
+        nuevaFila+='<td class="'+datos.familia+'"></td>'
+        nuevaFila+='<td class="'+datos.linea+'"></td>'
+        nuevaFila+='<td class="'+datos.tela+'"></td>'
+        nuevaFila+='<td class="'+datos.modelo+'"></td>'
+        nuevaFila+='<td class="'+datos.talla+'"></td>'
+        nuevaFila+='<td class="'+datos.color+'"></td>'
+        nuevaFila+='<td>$'+number_format(datos.docena,2)+'</td>'
+        nuevaFila+='<td><input type="text" value="12"/></td>'
+        nuevaFila+='<td><input type="text" value="0"/></td>'
+        nuevaFila+='<td class="blue-text" style="font-size: 16px;font-weight: bold;">$<span id="sub_'+producto+'">'+number_format(datos.docena,2)+'</span></td>'
+        nuevaFila+='</tr>'
+    $("#productos-rows").append(nuevaFila)
+    leerFamilias()
+    leerLineas()
+    leerTelas()
+    leerModelos()
+    leerTallas()
+    leerColores()
+    $('#autocomplete-input').val('')
     $('#autocomplete-input').focus()
   })
+}
+
+function leerFamilias(){
+  familias.once('value',function(snap){
+    var datos = snap.val()
+    for(var key in datos){
+      $('.'+key).text(datos[key].nombre)
+    }
+  })
+}
+
+function leerLineas(){
+  lineas.once('value',function(snap){
+    var datos = snap.val()
+    for(var key in datos){
+      $('.'+key).text(datos[key].nombre)
+    }
+  })
+}
+
+function leerTelas(){
+  telas.once('value',function(snap){
+    var datos = snap.val()
+    for(var key in datos){
+      $('.'+key).text(datos[key].nombre)
+    }
+  })
+}
+
+function leerModelos(){
+  modelos.once('value',function(snap){
+    var datos = snap.val()
+    for(var key in datos){
+      $('.'+key).text(datos[key].nombre)
+    }
+  })
+}
+
+function leerTallas(){
+  tallas.once('value',function(snap){
+    var datos = snap.val()
+    for(var key in datos){
+      $('.'+key).text(datos[key].nombre)
+    }
+  })
+}
+
+function leerColores(){
+  colores.once('value',function(snap){
+    var datos = snap.val()
+    for(var key in datos){
+      $('.'+key).text(datos[key].nombre)
+    }
+  })
+}
+
+//Convertir a moneda
+function number_format(amount, decimals) {
+    amount += ''; // por si pasan un numero en vez de un string
+    amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
+    decimals = decimals || 0; // por si la variable no fue fue pasada
+    // si no es un numero o es igual a cero retorno el mismo cero
+    if (isNaN(amount) || amount === 0) 
+        return parseFloat(0).toFixed(decimals);
+    // si es mayor o menor que cero retorno el valor formateado como numero
+    amount = '' + amount.toFixed(decimals);
+    var amount_parts = amount.split('.'),
+        regexp = /(\d+)(\d{3})/;
+    while (regexp.test(amount_parts[0]))
+        amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
+    return amount_parts.join('.');
 }
