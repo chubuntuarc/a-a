@@ -59,7 +59,7 @@ function cargarDatosProducto(){
     var datos = snap.val()
     var nuevaFila
         nuevaFila+='<tr>'
-        nuevaFila+='<td><a class="red-text text-lighten-3" href="#!" onclick="borrarProducto(\''+producto+'\');"><i class="tiny material-icons">clear</i></a></td>'
+        nuevaFila+='<td><a class="red-text text-lighten-3" href="#!" onclick="borrarProducto(\''+snap.key+'\');"><i class="tiny material-icons">clear</i></a></td>'
         nuevaFila+='<td><b class="blue-text">'+datos.codigo+'</b></td>'
         nuevaFila+='<td class="'+datos.familia+'"></td>'
         nuevaFila+='<td class="'+datos.linea+'"></td>'
@@ -67,10 +67,12 @@ function cargarDatosProducto(){
         nuevaFila+='<td class="'+datos.modelo+'"></td>'
         nuevaFila+='<td class="'+datos.talla+'"></td>'
         nuevaFila+='<td class="'+datos.color+'"></td>'
-        nuevaFila+='<td>$'+number_format(datos.docena,2)+'</td>'
-        nuevaFila+='<td><input type="text" value="12"/></td>'
+        nuevaFila+='<td>$<span id="precio'+snap.key+'">'+number_format(datos.docena,2)+'</span></td>'
+        nuevaFila+='<input type="hidden" id="media'+snap.key+'" value="'+datos.media+'"/>'
+        nuevaFila+='<input type="hidden"id="docena'+snap.key+'" value="'+datos.docena+'"/>'
+        nuevaFila+='<td><input type="text" onkeyup="validarCampo($(this).val(),\''+snap.key+'\');" value="12"/></td>'
         nuevaFila+='<td><input type="text" value="0"/></td>'
-        nuevaFila+='<td class="blue-text" style="font-size: 16px;font-weight: bold;">$<span id="sub_'+producto+'" class="sub_productos">'+number_format(datos.docena,2)+'</span></td>'
+      nuevaFila+='<td class="blue-text" style="font-size: 16px;font-weight: bold;">$<span id="sub_'+snap.key+'" class="sub_productos">'+number_format(datos.docena,2)+'</span></td>'
         nuevaFila+='</tr>'
     $("#productos-rows").append(nuevaFila)
     leerFamilias()
@@ -85,13 +87,25 @@ function cargarDatosProducto(){
   })
 }
 
+function validarCampo(cantidad, producto){
+  var media = $('#media'+producto).val()
+  var docena = $('#docena'+producto).val()
+   if(cantidad <= 6){
+     //console.log(media)
+     $('#precio'+producto).text(media)
+   }else{
+     //console.log(docena)
+     $('#precio'+producto).text(docena)
+   }
+}
+
 function calcularsubtotal(){
   var subtotal = 0
   $('.sub_productos').each(function(){
     subtotal += parseFloat($(this).text())
   })
   $('#subtotal_pos').text(number_format(subtotal,2))
-  if($('.switch').find("input[type=checkbox]").prop('checked') === true){
+  if($('.switch').prop('checked') === true){
     var iva = subtotal * 0.16
   }else{
     var iva = 0
