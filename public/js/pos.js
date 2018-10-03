@@ -8,6 +8,9 @@ $(document).ready(function(){
     $('#autocomplete-input').focus()
     inicializar()
     listaBusqueda()
+    $(".switch").find("input[type=checkbox]").on("change",function() {
+        calcularsubtotal()
+    })
 })
 
 function inicializar(){
@@ -67,7 +70,7 @@ function cargarDatosProducto(){
         nuevaFila+='<td>$'+number_format(datos.docena,2)+'</td>'
         nuevaFila+='<td><input type="text" value="12"/></td>'
         nuevaFila+='<td><input type="text" value="0"/></td>'
-        nuevaFila+='<td class="blue-text" style="font-size: 16px;font-weight: bold;">$<span id="sub_'+producto+'">'+number_format(datos.docena,2)+'</span></td>'
+        nuevaFila+='<td class="blue-text" style="font-size: 16px;font-weight: bold;">$<span id="sub_'+producto+'" class="sub_productos">'+number_format(datos.docena,2)+'</span></td>'
         nuevaFila+='</tr>'
     $("#productos-rows").append(nuevaFila)
     leerFamilias()
@@ -76,9 +79,26 @@ function cargarDatosProducto(){
     leerModelos()
     leerTallas()
     leerColores()
+    calcularsubtotal()
     $('#autocomplete-input').val('')
     $('#autocomplete-input').focus()
   })
+}
+
+function calcularsubtotal(){
+  var subtotal = 0
+  $('.sub_productos').each(function(){
+    subtotal += parseFloat($(this).text())
+  })
+  $('#subtotal_pos').text(number_format(subtotal,2))
+  if($('.switch').find("input[type=checkbox]").prop('checked') === true){
+    var iva = subtotal * 0.16
+  }else{
+    var iva = 0
+  }
+  $('#iva_pos').text(number_format(iva,2))
+  var total = parseFloat(subtotal) + parseFloat(iva)
+  $('#total_pos').text(number_format(total,2))
 }
 
 function leerFamilias(){
