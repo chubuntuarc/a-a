@@ -72,7 +72,7 @@ function cargarDatosProducto(){
         nuevaFila+='<input type="hidden"id="docena'+snap.key+'" value="'+datos.docena+'"/>'
         nuevaFila+='<td><input type="text" onkeyup="validarCampo($(this).val(),\''+snap.key+'\');" value="12"/></td>'
         //nuevaFila+='<td><input type="text" value="0"/></td>'
-      nuevaFila+='<td class="blue-text" style="font-size: 16px;font-weight: bold;">$<span id="sub_'+snap.key+'" class="sub_productos">'+number_format(datos.docena,2)+'</span></td>'
+      nuevaFila+='<td class="blue-text" style="font-size: 16px;font-weight: bold;">$<span id="sub'+snap.key+'" class="sub_productos">'+number_format(datos.docena,2)+'</span></td>'
         nuevaFila+='</tr>'
     $("#productos-rows").append(nuevaFila)
     leerFamilias()
@@ -92,9 +92,19 @@ function validarCampo(cantidad, producto){
   var docena = $('#docena'+producto).val()
    if(cantidad <= 6){
      $('#precio'+producto).text(media)
+     var unidad = parseFloat(media) / 6
+     var result = parseFloat(unidad) * cantidad
+     $('#sub'+producto).text(number_format(result,2))
    }else{
      $('#precio'+producto).text(docena)
+
+       var unidad = parseFloat(docena) / 12
+       var result = parseFloat(unidad) * cantidad
+       $('#sub'+producto).text(number_format(result,2))
+       
+
    }
+   calcularsubtotal()
 }
 
 function calcularsubtotal(){
@@ -103,7 +113,7 @@ function calcularsubtotal(){
     subtotal += parseFloat($(this).text())
   })
   $('#subtotal_pos').text(number_format(subtotal,2))
-  if($('.switch').prop('checked') === true){
+  if($('.switch').find("input[type=checkbox]").prop('checked') === true){
     var iva = subtotal * 0.16
   }else{
     var iva = 0
