@@ -91,7 +91,7 @@ function leerDatosProducto(){
           nuevaFila+='<td>$'+datos[key].media+'</td>'
           nuevaFila+='<td><a href="#!" onclick="editarProducto(\''+key+'\');"><i class="material-icons">edit</i></a></td>'
           nuevaFila+='<td class="hide-on-small-only"><a class="red-text text-lighten-3" href="#!" onclick="borrarProducto(\''+key+'\');"><i class="tiny material-icons">clear</i></a></td>'
-          nuevaFila+='<td class="hide-on-small-only"><a href="#!" onclick="barcode(\''+datos[key].codigo+'\',\''+datos[key].codigo+'\');"><i class="material-icons">confirmation_number</i></a></td>'
+          nuevaFila+='<td class="hide-on-small-only"><a href="#!" onclick="barcode(\''+datos[key].codigo+'\',\''+datos[key].codigo+'\',\''+datos[key].familia+'\',\''+datos[key].modelo+'\',\''+datos[key].linea+'\',\''+datos[key].tela+'\',\''+datos[key].color+'\',\''+datos[key].talla+'\');"><i class="material-icons">confirmation_number</i></a></td>'
           nuevaFila+='</tr>'
     }
     $("#productos-rows").append(nuevaFila)
@@ -204,11 +204,72 @@ function editarProducto(key){
 }
 
 //Mandar a imprimir codigo de barras
-function barcode(key,codigo){
-  $('#barcode-template').show()
-  $('#barcode-producto').text(codigo)
-  JsBarcode("#barcode", key)
-  window.print()
+function barcode(key,codigo,familia,modelo,linea,tela,color,talla){
+  $('#id_familia').val(familia);
+  $('#id_modelo').val(modelo);
+  $('#id_linea').val(linea);
+  $('#id_tela').val(tela);
+  $('#id_color').val(color);
+  $('#id_talla').val(talla);
+  $('#barcode-template').show();
+  $('#barcode-producto').text(codigo);
+  JsBarcode("#barcode", key);
+  familias.on('value',function(snap){
+    var familia = $('#id_familia').val();
+    var datos = snap.val();
+    for(var key in datos){
+      if(key === familia){
+        $('#familia-name').text(datos[key].nombre);
+      }
+    }
+  });
+  modelos.on('value',function(snap){
+    var modelo = $('#id_modelo').val();
+    var datos = snap.val();
+    for(var key in datos){
+      if(key === modelo){
+        $('#modelo-name').text(datos[key].nombre);
+      }
+    }
+  });
+  lineas.on('value',function(snap){
+    var linea = $('#id_linea').val();
+    var datos = snap.val();
+    for(var key in datos){
+      if(key === linea){
+        $('#linea-name').text(datos[key].nombre);
+      }
+    }
+  });
+  telas.on('value',function(snap){
+    var tela = $('#id_tela').val();
+    var datos = snap.val();
+    for(var key in datos){
+      if(key === tela){
+        $('#tela-name').text(datos[key].nombre);
+      }
+    }
+  });
+  colores.on('value',function(snap){
+    var color = $('#id_color').val();
+    var datos = snap.val();
+    for(var key in datos){
+      if(key === color){
+        $('#color-name').text(datos[key].nombre);
+      }
+    }
+  });
+  tallas.on('value',function(snap){
+    var talla = $('#id_talla').val();
+    var datos = snap.val();
+    for(var key in datos){
+      if(key === talla){
+        $('#talla-name').text(datos[key].nombre);
+      }
+    }
+  });
+  $('#barcode-name').text();
+  //window.print()
 }
 
 var mediaQueryList = window.matchMedia('print');

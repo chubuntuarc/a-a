@@ -38,7 +38,7 @@ header, main, footer {
 }
 
 #barcode{
-  margin-top: 25%;
+  margin-top: 10px;
 }
 .message{
     position: fixed;
