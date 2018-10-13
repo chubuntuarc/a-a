@@ -269,15 +269,15 @@ function barcode(key,codigo,familia,modelo,linea,tela,color,talla){
     }
   });
   $('#barcode-name').text();
-  //window.print()
+  window.print()
 }
 
 var mediaQueryList = window.matchMedia('print');
 mediaQueryList.addListener(function(mql) {
     if (mql.matches) {
-        console.log('before print dialog open');
+        //console.log('before print dialog open');
     } else {
-        console.log('after print dialog closed');
+       //console.log('after print dialog closed');
 var ventana = window.self;
                   $('#barcode-template').hide()
     }

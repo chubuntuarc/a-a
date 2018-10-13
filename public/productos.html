@@ -16,7 +16,16 @@
   </div>
 </div>
 
-<div id="barcode-template">
+<style>
+.salto_pagina_despues{
+page-break-after:always;
+}
+.salto_pagina_anterior{
+page-break-before:always;
+}
+</style>
+
+<div id="barcode-template" class="salto_pagina_despues">
   <input type="hidden" id="id_familia"/>
   <input type="hidden" id="id_modelo"/>
   <input type="hidden" id="id_linea"/>
